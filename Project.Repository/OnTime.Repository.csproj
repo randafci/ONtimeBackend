@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="12.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Project.Comman\OnTime.CrossCutting.Comman.csproj" />
+    <ProjectReference Include="..\Project.Data\OnTime.Data.csproj" />
+    <ProjectReference Include="..\Project.EntityFramework\OnTime.EntityFramework.csproj" />
+  </ItemGroup>
+
+</Project>
