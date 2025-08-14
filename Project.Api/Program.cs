@@ -18,6 +18,10 @@ using Refit;
 using Hangfire;
 using StackExchange.Redis;
 using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
+using OnTime.CrossCutting.Data.Repository;
+using OnTime.Lookups.Services.Contracts;
+using Tanafos.Shared.Lookups.Services.Implementation;
+using OnTime.Module.lookup.Mapper;
 var builder = WebApplication.CreateBuilder(args);
 var configuration= builder.Configuration;
 // Add services to the container.
@@ -25,6 +29,10 @@ var configuration= builder.Configuration;
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddScoped(typeof(ICrossCuttingRepository<>), typeof(CrossCuttingRepository<>));
+
+builder.Services.AddScoped(typeof(ILookupService<,>), typeof(LookupService<,>));
+builder.Services.AddAutoMapper(typeof(LookupMappingProfile));
 
 
 #region Connection String

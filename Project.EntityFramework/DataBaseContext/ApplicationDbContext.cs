@@ -6,6 +6,7 @@ using OnTime.Comman.Idenitity;
 using StackExchange.Redis;
 using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 using OnTime.Comman.Enums;
+using ProjectPulse.Data.Entities;
 
 namespace OnTime.EntityFramework.DataBaseContext
 {
@@ -15,6 +16,7 @@ namespace OnTime.EntityFramework.DataBaseContext
 
         public DbSet<Customer> Customers { get; set; }
         public DbSet<ApplicationUser> Users { get; set; }
+        public DbSet<Organization> Organizations { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

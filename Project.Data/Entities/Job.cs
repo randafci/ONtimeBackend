@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProjectPulse.Data.Entities
 {
-    public sealed class Job : AuditEntity
+    public sealed class Job : AuditEntity<int>
     {
         public string Code { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;

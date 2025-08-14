@@ -1,15 +1,21 @@
-﻿using System;
+﻿using Moujam.Casiher.Comman.Base;
+using OnTime.CrossCutting.Comman;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ProjectPulse.Data.Entities
 {
-    public class Organization
+    public class Organization:AuditEntity<int>, ILookup
     {
-        public long Id { get; set; }
-        public string Name { get; set; } = string.Empty;
+        [MaxLength(500)]
+      public  string Name { get; set; }
+        [MaxLength(500)]
+        public string NameSE { get; set; }
+        public bool IsDeleted { get; set; }
         public ICollection<Job> Jobs { get; set; } = new List<Job>();
 
 
