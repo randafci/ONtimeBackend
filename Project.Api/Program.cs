@@ -20,8 +20,8 @@ using StackExchange.Redis;
 using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 using OnTime.CrossCutting.Data.Repository;
 using OnTime.Lookups.Services.Contracts;
-using Tanafos.Shared.Lookups.Services.Implementation;
 using OnTime.Module.lookup.Mapper;
+using OnTime.Lookups.Services.Implementation;
 var builder = WebApplication.CreateBuilder(args);
 var configuration= builder.Configuration;
 // Add services to the container.

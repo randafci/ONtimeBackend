@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System;
 using OnTime.CrossCutting.Comman;
 using OnTime.Lookups.Services.Contracts;
+using OnTime.ResponseHandler.Models;
 
 namespace OnTime.Lookups.Domain.API.Controllers
 {
@@ -13,7 +14,7 @@ namespace OnTime.Lookups.Domain.API.Controllers
     [Produces("application/json")]
 
 
-    public abstract class LookupController<T, TDto> : Controller where T : class, ILookup where TDto : class
+    public abstract class LookupController<T, TDto> : ApiControllerBase where T : class, ILookup where TDto : class 
     {
 
         protected readonly ILookupService<T, TDto> _lookupService;
@@ -35,18 +36,35 @@ namespace OnTime.Lookups.Domain.API.Controllers
         /// <param name="lookupName"></param>
         /// <returns></returns>
         [HttpGet]
-        public virtual async Task< List<T>> Get(string controller)
+        public virtual async Task<IActionResult> Get(string controller)
         {
-            return await _lookupService.GetLookupItems();
+            return ProcessResponse( await _lookupService.GetLookupItems());
         }
 
         [HttpPost]
-        public virtual async Task<T> post( [FromBody] TDto item)
+        public virtual async Task<IActionResult> post( [FromBody] TDto item)
         {
-            return await _lookupService.AddLookupItem(item);
+            return ProcessResponse(await _lookupService.AddLookupItem(item));
         }
 
+        [HttpPut("{id}")]
+        public virtual async Task<ActionResult> Put(int id, [FromBody] TDto item)
+        {
+            
+                var updated = await _lookupService.UpdateLookupItem(id, item);
+                return ProcessResponse(updated);
+           
+        }
 
+        /// <summary>
+        /// Search lookup items by code, name, or nameSE
+        /// </summary>
+        [HttpGet("search")]
+        public virtual async Task<ActionResult> Search([FromQuery] string searchText, [FromQuery] bool includeDeleted = false)
+        {
+            var results = await _lookupService.SearchLookupItems(searchText, includeDeleted);
+            return ProcessResponse(results);
+        }
         /// <summary>
         /// Get Lookup Item by Id.
         /// </summary>
@@ -55,9 +73,9 @@ namespace OnTime.Lookups.Domain.API.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("{Id}")]
-        public async Task<T> LookupItem(string controller, int Id)
+        public async Task<IActionResult> LookupItem(string controller, int Id)
         {
-            return  await _lookupService.GetLookupItemById(Id);
+            return ProcessResponse(await _lookupService.GetLookupItemById(Id));
         }
 
         /// <summary>
@@ -68,16 +86,16 @@ namespace OnTime.Lookups.Domain.API.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("LookupItemsWithDeleted/{IncludeDeleted?}")]
-        public async Task< List<T>> LookupItems(string controller, bool? IncludeDeleted = false)
+        public async Task<IActionResult> LookupItems(string controller, bool? IncludeDeleted = false)
         {
-            return await _lookupService.GetLookupItems(IncludeDeleted.Value);
+            return ProcessResponse(await _lookupService.GetLookupItems(IncludeDeleted.Value));
         }
 
         [HttpGet]
         [Route("LookupItemsByParentId/{ParentId}/{IncludeDeleted?}")]
-        public async Task< List<T>> LookupItemsByParentId(string controller, int ParentId, bool? IncludeDeleted = false)
+        public async Task<IActionResult> LookupItemsByParentId(string controller, int ParentId, bool? IncludeDeleted = false)
         {
-            return await _lookupService.GetLookupItemsByParentId(_parentKey, ParentId, IncludeDeleted.Value);
+            return ProcessResponse( await _lookupService.GetLookupItemsByParentId(_parentKey, ParentId, IncludeDeleted.Value));
         }
     }
 }
