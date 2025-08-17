@@ -7,10 +7,11 @@ using StackExchange.Redis;
 using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 using OnTime.Comman.Enums;
 using ProjectPulse.Data.Entities;
+using OnTime.CrossCutting.Comman.Idenitity;
 
 namespace OnTime.EntityFramework.DataBaseContext
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
