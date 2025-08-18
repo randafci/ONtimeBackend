@@ -35,8 +35,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnTime.lookup.API", "Projec
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnTime.Module.lookup", "Project.Module.Logic\OnTime.Module.lookup.csproj", "{2BBE85DD-DC4F-448F-9952-EDB6E03A1A12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnTime.User.API", "Project.Module.User\OnTime.User.API.csproj", "{120427BB-9810-48B1-A554-100C8B885D31}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,10 +77,6 @@ Global
 		{2BBE85DD-DC4F-448F-9952-EDB6E03A1A12}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2BBE85DD-DC4F-448F-9952-EDB6E03A1A12}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2BBE85DD-DC4F-448F-9952-EDB6E03A1A12}.Release|Any CPU.Build.0 = Release|Any CPU
-		{120427BB-9810-48B1-A554-100C8B885D31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{120427BB-9810-48B1-A554-100C8B885D31}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{120427BB-9810-48B1-A554-100C8B885D31}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{120427BB-9810-48B1-A554-100C8B885D31}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -99,7 +93,6 @@ Global
 		{EAD95C6A-4B38-4C4A-B65F-CD6E58F42735} = {3EB3EA2E-E015-47B0-B86F-95858893D33A}
 		{A9850077-3451-4893-B8E6-221FAB32A70F} = {AFF453E7-D1F0-4BC9-B9FA-DBA9F9B582A8}
 		{2BBE85DD-DC4F-448F-9952-EDB6E03A1A12} = {AFF453E7-D1F0-4BC9-B9FA-DBA9F9B582A8}
-		{120427BB-9810-48B1-A554-100C8B885D31} = {7EB7C356-E5C7-4056-AC53-BF93D64A21E2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ECC5B3B4-1215-4670-A666-332AAF335B64}

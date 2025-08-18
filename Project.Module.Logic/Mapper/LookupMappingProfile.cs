@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
 using OnTime.Module.lookup.DTO;
+using OnTime.Module.lookup.DTO.Company;
+using OnTime.Module.lookup.DTO.Department;
+using OnTime.Module.lookup.DTO.Job;
 using ProjectPulse.Data.Entities;
 using System;
 using System.Collections.Generic;
@@ -16,7 +19,15 @@ namespace OnTime.Module.lookup.Mapper
         {
             CreateMap<OrganizationDto, Organization>();
             CreateMap<Organization, OrganizationDto>();
-            // Add other DTO <-> Entity mappings here
+            
+            CreateMap<JobDto, Job>();
+            CreateMap<Job, JobDto>();
+            
+            CreateMap<CompanyDto, Company>();
+            CreateMap<Company, CompanyDto>();
+            
+            CreateMap<DepartmentDto, Department>();
+            CreateMap<Department, DepartmentDto>();
         }
     }
 
