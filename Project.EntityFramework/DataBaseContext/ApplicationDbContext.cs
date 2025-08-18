@@ -48,34 +48,19 @@ namespace OnTime.EntityFramework.DataBaseContext
             modelBuilder.Entity<IdentityRole>().HasData(roles);
         }
 
-        //public static async Task SeedDefaultUserAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext context)
-        //{
+        public async Task<bool> TableExistsAsync(string tableName)
+        {
+            var connection = Database.GetDbConnection();
+            if (connection.State != System.Data.ConnectionState.Open)
+            {
+                await connection.OpenAsync();
+            }
+            var tables = await connection.GetSchemaAsync("Tables");
+            return tables.Rows
+                .OfType<System.Data.DataRow>()
+                .Any(row => row["TABLE_NAME"].ToString().ToLower() == tableName.ToLower());
+        }
 
-        //    var adminEmail = "admin@project.com";
-        //    var defaultPassword = "12345";
-        //    var userName = "superadmin";
-        //    if (!userManager.Users.Any(u => u.UserName == userName))
-        //    {
-        //        try
-        //        {
-        //            var adminUser = new ApplicationUser { PhoneNumber="01011111110",UserType=UserType.Admin,FullName=userName,UserName = userName, Email = adminEmail, EmailConfirmed = true };
-        //            var result = await userManager.CreateAsync(adminUser, defaultPassword);
-        //            if (result.Succeeded)
-        //            {
-
-        //                context.Users.Update(adminUser);
-        //                await context.SaveChangesAsync();
-
-        //                await userManager.AddToRoleAsync(adminUser, "Admin");
-
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-
-        //        }
-        //    }
-        //}
 
 
     }

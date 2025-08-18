@@ -12,7 +12,7 @@ namespace OnTime.User.Services.Interfaces
         /// Validates credentials against LDAP. If <paramref name="loginWithoutPassword"/> is true and <paramref name="password"/> is null,
         /// this method will only check that an account with the given username exists in LDAP.
         /// </summary>
-      //  Task<bool> ValidateAsync(string username, string? password, bool loginWithoutPassword, CancellationToken cancellationToken = default);
+      Task<bool> ValidateAsync(string username, string? password, bool loginWithoutPassword, CancellationToken cancellationToken = default);
     }
 
 }
