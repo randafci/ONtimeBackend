@@ -18,4 +18,8 @@ namespace OnTime.Lookups.Domain.API.Controllers
     {
         public JobController(ILookupService<Job, JobDto> iLookupService) : base(iLookupService) { }
     }
+    //public class ComapnyController : LookupController<company, JobDto>
+    //{
+    //    public comapnyController(ILookupService<Job, JobDto> iLookupService) : base(iLookupService) { }
+    //}
 }

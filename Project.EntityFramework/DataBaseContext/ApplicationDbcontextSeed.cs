@@ -21,54 +21,61 @@ namespace OnTime.EntityFramework.DataBaseContext
      UserManager<ApplicationUser> userManager,
      RoleManager<ApplicationRole> roleManager)
         {
-            ApplicationRole administratorRole = new()
+            try
             {
-                IsHRRole = false,
-                IsDefaultRole = false,
-                Name = "Administrator",
-            };
-            var plainPermissions = PlainPermissionsGenerator.GetPlainPermissionsWithGroup();
-            //var crudPermissions = await new CrudPermissionsGenerator(settings, context).GenerateAllPermissions();
-            if (roleManager.Roles.All(item => item.Name != administratorRole.Name))
-            {
-                //    await roleManager.CreateAsync(administratorRole);
-                //    var roleClaims = await roleManager.GetClaimsAsync(administratorRole);
-                //    foreach (var claim in roleClaims)
-                //    {
-                //        await roleManager.RemoveClaimAsync(administratorRole, claim);
-                //    }
-                //    foreach (var crudModel in crudPermissions)
-                //    {
-                //        foreach (var crudPermission in crudModel.PermissionsList)
-                //        {
-                //            if (!string.IsNullOrWhiteSpace(crudPermission.DisplayValue))
-                //            {
-                //                await roleManager.AddClaimAsync(administratorRole, new Claim("Permissions", crudPermission.DisplayValue));
-                //            }
-                //        }
-                //    }
-                foreach (var plainModel in plainPermissions)
+                ApplicationRole administratorRole = new()
                 {
-                    foreach (var plainPermission in plainModel.PermissionsList)
+                    IsHRRole = false,
+                    IsDefaultRole = false,
+                    Name = "Administrator",
+                };
+                var plainPermissions = PlainPermissionsGenerator.GetPlainPermissionsWithGroup();
+                //var crudPermissions = await new CrudPermissionsGenerator(settings, context).GenerateAllPermissions();
+                if (roleManager.Roles.All(item => item.Name != administratorRole.Name))
+                {
+                       await roleManager.CreateAsync(administratorRole);
+                    //    var roleClaims = await roleManager.GetClaimsAsync(administratorRole);
+                    //    foreach (var claim in roleClaims)
+                    //    {
+                    //        await roleManager.RemoveClaimAsync(administratorRole, claim);
+                    //    }
+                    //    foreach (var crudModel in crudPermissions)
+                    //    {
+                    //        foreach (var crudPermission in crudModel.PermissionsList)
+                    //        {
+                    //            if (!string.IsNullOrWhiteSpace(crudPermission.DisplayValue))
+                    //            {
+                    //                await roleManager.AddClaimAsync(administratorRole, new Claim("Permissions", crudPermission.DisplayValue));
+                    //            }
+                    //        }
+                    //    }
+                    foreach (var plainModel in plainPermissions)
                     {
-                        if (plainPermission.DisplayValue != "BasedOnEntity")
+                        foreach (var plainPermission in plainModel.PermissionsList)
                         {
-                            await roleManager.AddClaimAsync(administratorRole, new Claim("Permissions", plainPermission.DisplayValue));
+                            if (plainPermission.DisplayValue != "BasedOnEntity")
+                            {
+                                await roleManager.AddClaimAsync(administratorRole, new Claim("Permissions", plainPermission.DisplayValue));
+                            }
                         }
                     }
                 }
+                var administrator = new ApplicationUser
+                {
+                    IsLdapUser = false,
+                    EmailConfirmed = true,
+                    Email = "administrator@localhost",
+                    UserName = "administrator@localhost",
+                };
+                if (userManager.Users.All(item => item.UserName != administrator.UserName))
+                {
+                    await userManager.CreateAsync(administrator, "Administrator1!");
+                    await userManager.AddToRolesAsync(administrator, new[] { administratorRole.Name });
+                }
             }
-            var administrator = new ApplicationUser
+            catch(Exception ex)
             {
-                IsLdapUser = false,
-                EmailConfirmed = true,
-                Email = "administrator@localhost",
-                UserName = "administrator@localhost",
-            };
-            if (userManager.Users.All(item => item.UserName != administrator.UserName))
-            {
-                await userManager.CreateAsync(administrator, "Administrator1!");
-                await userManager.AddToRolesAsync(administrator, new[] { administratorRole.Name });
+
             }
         }
     }

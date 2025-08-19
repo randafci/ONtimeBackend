@@ -22,10 +22,15 @@ using OnTime.CrossCutting.Data.Repository;
 using OnTime.Lookups.Services.Contracts;
 using OnTime.Module.lookup.Mapper;
 using OnTime.Lookups.Services.Implementation;
+using OnTime.User.Services.Interfaces;
+using OnTime.User.Services.Implementation;
+using OnTime.CrossCutting.Comman.Time;
+using OnTime.User.Services.DTO;
+using OnTime.CrossCutting.Comman.Idenitity;
+
 var builder = WebApplication.CreateBuilder(args);
 var configuration= builder.Configuration;
 // Add services to the container.
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -34,6 +39,8 @@ builder.Services.AddScoped(typeof(ICrossCuttingRepository<>), typeof(CrossCuttin
 builder.Services.AddScoped(typeof(ILookupService<,>), typeof(LookupService<,>));
 builder.Services.AddAutoMapper(typeof(LookupMappingProfile));
 
+builder.Services.Configure<JwtOptions>(
+builder.Configuration.GetSection("JWT"));
 
 #region Connection String
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -44,7 +51,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 #endregion
 
 #region Identity
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
 {
     options.Password.RequireDigit = false;
     options.Password.RequireLowercase = false;
@@ -150,7 +157,7 @@ try
     using (var scope = app.Services.CreateScope())
     {
         var services = scope.ServiceProvider;
-        var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+        var roleManager = services.GetRequiredService<RoleManager<ApplicationRole>>();
         var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
         try
         {
@@ -160,7 +167,7 @@ try
             {
                 context.Database.Migrate();
             }
-          //  await ApplicationDbContext.SeedDefaultUserAsync(userManager, roleManager, context);
+            await ApplicationDbcontextSeed.SeedDefaultUserAsync(context,userManager, roleManager);
           
 
         }

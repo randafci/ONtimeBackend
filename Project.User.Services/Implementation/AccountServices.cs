@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Options;
+using OnTime.Application.Common.Interfaces;
 using OnTime.Comman.Idenitity;
 using OnTime.CrossCutting.Comman.Exception;
+using OnTime.CrossCutting.Comman.Idenitity;
 using OnTime.CrossCutting.Comman.Time;
 using OnTime.Data.IGenericRepository_IUOW;
 using OnTime.ResponseHandler.Consts;
@@ -21,32 +23,37 @@ namespace OnTime.User.Services.Implementation
     {
         private readonly IJwtServices _jwtServices;
         private readonly ISettingsProvider _settingsProvider;
-        private readonly IUnitOfWork _unitOfWork;
+      //  private readonly IUnitOfWork _unitOfWork;
         private readonly ILdapAuthenticator _ldapAuthenticator;
         private readonly IDateTimeProvider _dateTimeProvider;
         private readonly JwtOptions _jwtOptions;
         private readonly AdminUsersOptions _adminUsers;
         private readonly UserManager<ApplicationUser> _userRepository;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly ICurrentUserService _currentUserService;
 
         public AccountServices(
             IJwtServices jwtServices,
             ISettingsProvider settingsProvider,
-           IUnitOfWork unitOfWork,
+//IUnitOfWork unitOfWork,
             ILdapAuthenticator ldapAuthenticator,
             IDateTimeProvider dateTimeProvider,
             IOptions<JwtOptions> jwtOptions,
-            IOptions<AdminUsersOptions> adminUsers, UserManager<ApplicationUser> userRepository, SignInManager<ApplicationUser> signInManager)
+            IOptions<AdminUsersOptions> adminUsers, UserManager<ApplicationUser> userRepository,
+            SignInManager<ApplicationUser> signInManager, RoleManager<ApplicationRole> roleManager, ICurrentUserService currentUserService)
         {
             _jwtServices = jwtServices ?? throw new ArgumentNullException(nameof(jwtServices));
             _settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
-            _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+           // _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             _ldapAuthenticator = ldapAuthenticator ?? throw new ArgumentNullException(nameof(ldapAuthenticator));
             _dateTimeProvider = dateTimeProvider ?? throw new ArgumentNullException(nameof(dateTimeProvider));
             _jwtOptions = jwtOptions?.Value ?? new JwtOptions();
             _adminUsers = adminUsers?.Value ?? new AdminUsersOptions();
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
             _signInManager = signInManager;
+            _roleManager = roleManager;
+            _currentUserService = currentUserService;
         }
 
         public async Task<APIOperationResponse<AuthenticatedResponse>> Login(
@@ -65,8 +72,9 @@ namespace OnTime.User.Services.Implementation
 
                 var ldapSettings = await _settingsProvider.GetLdapSettings(cancellationToken);
 
-                var isAdminLogin = _adminUsers.AdminUserNames
-                    .Any(a => loginInformation.Username.Contains(a, StringComparison.OrdinalIgnoreCase));
+                var isAdminLogin = true;
+                    //_adminUsers.AdminUserNames
+                   // .Any(a => loginInformation.Username.Contains(a, StringComparison.OrdinalIgnoreCase));
 
                 ApplicationUser? user;
 
@@ -172,11 +180,44 @@ namespace OnTime.User.Services.Implementation
             user.RefreshToken = refreshToken;
             user.RefreshTokenExpiryDate = _dateTimeProvider.UtcNow.AddMinutes(_jwtOptions.RefreshTokenExpireInMinutes);
 
-            await _unitOfWork.Users.UpdateAsync(user);
+            await _userRepository.UpdateAsync(user);
 
             var authResponse = await _jwtServices.GenerateJWTokenAsync(user.Id);
             authResponse.RefreshToken = refreshToken;
             return authResponse;
+        }
+        public async Task<APIOperationResponse<List<ClaimDto>>> GetRoleClaimsOnlyAsync()
+        {
+            var roleClaims = new List<ClaimDto>();
+
+            // 1. Get the current user
+            var user = await _userRepository.FindByIdAsync(_currentUserService.UserId);
+            if (user == null)
+                return APIOperationResponse < List < ClaimDto >>.Success(roleClaims);
+
+            // 2. Get user roles
+            var roles = await _userRepository.GetRolesAsync(user);
+
+            // 3. Collect claims for each role
+            foreach (var roleName in roles)
+            {
+                var role = await _roleManager.FindByNameAsync(roleName);
+                if (role != null)
+                {
+                    var claims = await _roleManager.GetClaimsAsync(role);
+
+
+                    roleClaims.AddRange(claims.Select
+                          (x => new ClaimDto
+                          {
+                              Id = x.Value,
+                              ClaimType = x.Type,
+
+                          }));
+                }
+            }
+
+            return APIOperationResponse<List<ClaimDto>>.Success(roleClaims);
         }
 
     }

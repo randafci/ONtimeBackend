@@ -13,6 +13,7 @@ namespace OnTime.User.Services.Interfaces
         Task<APIOperationResponse<AuthenticatedResponse>> Login(
       LoginInformation loginInformation,
       CancellationToken cancellationToken = default);
+        Task<APIOperationResponse<List<ClaimDto>>> GetRoleClaimsOnlyAsync();
 
     }
 }
