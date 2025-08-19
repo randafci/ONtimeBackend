@@ -21,7 +21,7 @@
     <ProjectReference Include="..\Project.EntityFramework\OnTime.EntityFramework.csproj" />
     <ProjectReference Include="..\Project.Logic.API\OnTime.lookup.API.csproj" />
     <ProjectReference Include="..\Project.Module.Logic\OnTime.Module.lookup.csproj" />
-    <ProjectReference Include="..\Project.Module.User\OnTime.User.API.csproj" />
+ 
     <ProjectReference Include="..\Project.User.Services\OnTime.User.Services.csproj" />
   </ItemGroup>
 
