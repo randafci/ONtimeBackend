@@ -17,7 +17,7 @@ namespace ProjectPulse.Data.Entities
         public string NameSE { get; set; }
         public bool IsDeleted { get; set; }
         public ICollection<Job> Jobs { get; set; } = new List<Job>();
-
-
+        public ICollection<Company> Companies { get; set; } = new List<Company>();  
+        public ICollection<Department> Departments { get; set; } = new List<Department>();
     }
 }

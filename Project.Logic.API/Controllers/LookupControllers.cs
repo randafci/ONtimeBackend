@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnTime.Lookups.Services.Contracts;
 using OnTime.Module.lookup.DTO;
+using OnTime.Module.lookup.DTO.Company;
+using OnTime.Module.lookup.DTO.Department;
 using OnTime.Module.lookup.DTO.Job;
 using ProjectPulse.Data.Entities;
 using System.Collections.Generic;
@@ -18,8 +20,14 @@ namespace OnTime.Lookups.Domain.API.Controllers
     {
         public JobController(ILookupService<Job, JobDto> iLookupService) : base(iLookupService) { }
     }
-    //public class ComapnyController : LookupController<company, JobDto>
-    //{
-    //    public comapnyController(ILookupService<Job, JobDto> iLookupService) : base(iLookupService) { }
-    //}
+
+    public class CompanyController : LookupController<Company, CompanyDto>
+    {
+        public CompanyController(ILookupService<Company, CompanyDto> iLookupService) : base(iLookupService) { }
+    }
+
+    public class DepartmentController : LookupController<Department, DepartmentDto>
+    {
+        public DepartmentController(ILookupService<Department, DepartmentDto> iLookupService) : base(iLookupService) { }
+    }
 }
