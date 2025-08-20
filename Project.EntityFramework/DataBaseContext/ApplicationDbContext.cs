@@ -17,8 +17,8 @@ namespace OnTime.EntityFramework.DataBaseContext
 
         public DbSet<Customer> Customers { get; set; }
         public DbSet<ApplicationUser> Users { get; set; }
-        public DbSet<Organization> Organizations { get; set; }
-        public DbSet<Company> Companies { get; set; }
+       public DbSet<Organization> Organizations { get; set; }
+       public DbSet<Company> Companies { get; set; }
         public DbSet<Department> Departments { get; set; }
 
 

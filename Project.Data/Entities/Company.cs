@@ -33,7 +33,7 @@ namespace ProjectPulse.Data.Entities
         // Navigation properties
         public Company? Parent { get; set; }
         public ICollection<Company> Children { get; set; } = new List<Company>();
-        public ICollection<Department> Departments { get; set; } = new List<Department>();
+      //  public ICollection<Department> Departments { get; set; } = new List<Department>();
        public Organization? Organization { get; set; }
     }
 }

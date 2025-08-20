@@ -12,8 +12,8 @@ using OnTime.EntityFramework.DataBaseContext;
 namespace OnTime.EntityFramework.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250817081203_add-roles")]
-    partial class addroles
+    [Migration("20250820085147_init-migrate")]
+    partial class initmigrate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -46,13 +46,13 @@ namespace OnTime.EntityFramework.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "de5254df-8cf5-4651-9d38-ed7c1e18877e",
+                            Id = "9899b328-640a-4fb9-9a76-d05bd5b9ecf3",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "2c402a92-4975-4e42-9526-d6111132fe54",
+                            Id = "1df5469d-8892-405b-b727-9e85dfd133fb",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -374,6 +374,126 @@ namespace OnTime.EntityFramework.Migrations
                     b.ToTable("Employee");
                 });
 
+            modelBuilder.Entity("ProjectPulse.Data.Entities.Company", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Code")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("FromIntegration")
+                        .HasColumnType("bit");
+
+                    b.Property<long>("Index")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModificationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("NameSE")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("OrganizationId")
+                        .HasColumnType("int");
+
+                    b.Property<long?>("ParentId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.HasIndex("ParentId");
+
+                    b.ToTable("Companies");
+                });
+
+            modelBuilder.Entity("ProjectPulse.Data.Entities.Department", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Code")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<long?>("CompanyId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("DepartmentType")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("FromIntegration")
+                        .HasColumnType("bit");
+
+                    b.Property<long>("Index")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModificationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("NameSE")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("OrganizationId")
+                        .HasColumnType("int");
+
+                    b.Property<long?>("ParentId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.HasIndex("ParentId");
+
+                    b.ToTable("Departments");
+                });
+
             modelBuilder.Entity("ProjectPulse.Data.Entities.Job", b =>
                 {
                     b.Property<int>("Id")
@@ -512,6 +632,46 @@ namespace OnTime.EntityFramework.Migrations
                     b.Navigation("Employee");
                 });
 
+            modelBuilder.Entity("ProjectPulse.Data.Entities.Company", b =>
+                {
+                    b.HasOne("ProjectPulse.Data.Entities.Organization", "Organization")
+                        .WithMany()
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProjectPulse.Data.Entities.Company", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId");
+
+                    b.Navigation("Organization");
+
+                    b.Navigation("Parent");
+                });
+
+            modelBuilder.Entity("ProjectPulse.Data.Entities.Department", b =>
+                {
+                    b.HasOne("ProjectPulse.Data.Entities.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId");
+
+                    b.HasOne("ProjectPulse.Data.Entities.Organization", "Organization")
+                        .WithMany("Departments")
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProjectPulse.Data.Entities.Department", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId");
+
+                    b.Navigation("Company");
+
+                    b.Navigation("Organization");
+
+                    b.Navigation("Parent");
+                });
+
             modelBuilder.Entity("ProjectPulse.Data.Entities.Job", b =>
                 {
                     b.HasOne("ProjectPulse.Data.Entities.Organization", "Organization")
@@ -523,8 +683,20 @@ namespace OnTime.EntityFramework.Migrations
                     b.Navigation("Organization");
                 });
 
+            modelBuilder.Entity("ProjectPulse.Data.Entities.Company", b =>
+                {
+                    b.Navigation("Children");
+                });
+
+            modelBuilder.Entity("ProjectPulse.Data.Entities.Department", b =>
+                {
+                    b.Navigation("Children");
+                });
+
             modelBuilder.Entity("ProjectPulse.Data.Entities.Organization", b =>
                 {
+                    b.Navigation("Departments");
+
                     b.Navigation("Jobs");
                 });
 #pragma warning restore 612, 618

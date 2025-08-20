@@ -43,13 +43,13 @@ namespace OnTime.EntityFramework.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b0121d36-720b-4f49-a550-13422c7b7935",
+                            Id = "9899b328-640a-4fb9-9a76-d05bd5b9ecf3",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "128e383e-2d3b-4677-bed3-9bc2ba56fcc3",
+                            Id = "1df5469d-8892-405b-b727-9e85dfd133fb",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -439,10 +439,7 @@ namespace OnTime.EntityFramework.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int?>("CompanyId")
-                        .HasColumnType("int");
-
-                    b.Property<long?>("CompanyId1")
+                    b.Property<long?>("CompanyId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("CreatedBy")
@@ -485,7 +482,9 @@ namespace OnTime.EntityFramework.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompanyId1");
+                    b.HasIndex("CompanyId");
+
+                    b.HasIndex("OrganizationId");
 
                     b.HasIndex("ParentId");
 
@@ -633,7 +632,7 @@ namespace OnTime.EntityFramework.Migrations
             modelBuilder.Entity("ProjectPulse.Data.Entities.Company", b =>
                 {
                     b.HasOne("ProjectPulse.Data.Entities.Organization", "Organization")
-                        .WithMany("Companies")
+                        .WithMany()
                         .HasForeignKey("OrganizationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -650,14 +649,22 @@ namespace OnTime.EntityFramework.Migrations
             modelBuilder.Entity("ProjectPulse.Data.Entities.Department", b =>
                 {
                     b.HasOne("ProjectPulse.Data.Entities.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId");
+
+                    b.HasOne("ProjectPulse.Data.Entities.Organization", "Organization")
                         .WithMany("Departments")
-                        .HasForeignKey("CompanyId1");
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ProjectPulse.Data.Entities.Department", "Parent")
                         .WithMany("Children")
                         .HasForeignKey("ParentId");
 
                     b.Navigation("Company");
+
+                    b.Navigation("Organization");
 
                     b.Navigation("Parent");
                 });
@@ -676,8 +683,6 @@ namespace OnTime.EntityFramework.Migrations
             modelBuilder.Entity("ProjectPulse.Data.Entities.Company", b =>
                 {
                     b.Navigation("Children");
-
-                    b.Navigation("Departments");
                 });
 
             modelBuilder.Entity("ProjectPulse.Data.Entities.Department", b =>
@@ -687,7 +692,7 @@ namespace OnTime.EntityFramework.Migrations
 
             modelBuilder.Entity("ProjectPulse.Data.Entities.Organization", b =>
                 {
-                    b.Navigation("Companies");
+                    b.Navigation("Departments");
 
                     b.Navigation("Jobs");
                 });

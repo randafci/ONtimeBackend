@@ -30,25 +30,25 @@ namespace OnTime.EntityFramework.DataBaseContext
                     Name = "Administrator",
                 };
                 var plainPermissions = PlainPermissionsGenerator.GetPlainPermissionsWithGroup();
-                //var crudPermissions = await new CrudPermissionsGenerator(settings, context).GenerateAllPermissions();
+                var crudPermissions = await new CrudPermissionsGenerator(context).GenerateAllPermissions();
                 if (roleManager.Roles.All(item => item.Name != administratorRole.Name))
                 {
                        await roleManager.CreateAsync(administratorRole);
-                    //    var roleClaims = await roleManager.GetClaimsAsync(administratorRole);
-                    //    foreach (var claim in roleClaims)
-                    //    {
-                    //        await roleManager.RemoveClaimAsync(administratorRole, claim);
-                    //    }
-                    //    foreach (var crudModel in crudPermissions)
-                    //    {
-                    //        foreach (var crudPermission in crudModel.PermissionsList)
-                    //        {
-                    //            if (!string.IsNullOrWhiteSpace(crudPermission.DisplayValue))
-                    //            {
-                    //                await roleManager.AddClaimAsync(administratorRole, new Claim("Permissions", crudPermission.DisplayValue));
-                    //            }
-                    //        }
-                    //    }
+                    var roleClaims = await roleManager.GetClaimsAsync(administratorRole);
+                    foreach (var claim in roleClaims)
+                    {
+                        await roleManager.RemoveClaimAsync(administratorRole, claim);
+                    }
+                    foreach (var crudModel in crudPermissions)
+                    {
+                        foreach (var crudPermission in crudModel.PermissionsList)
+                        {
+                            if (!string.IsNullOrWhiteSpace(crudPermission.DisplayValue))
+                            {
+                                await roleManager.AddClaimAsync(administratorRole, new Claim("Permissions", crudPermission.DisplayValue));
+                            }
+                        }
+                    }
                     foreach (var plainModel in plainPermissions)
                     {
                         foreach (var plainPermission in plainModel.PermissionsList)
