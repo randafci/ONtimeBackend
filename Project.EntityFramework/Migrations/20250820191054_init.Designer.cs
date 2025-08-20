@@ -12,8 +12,8 @@ using OnTime.EntityFramework.DataBaseContext;
 namespace OnTime.EntityFramework.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250820085147_init-migrate")]
-    partial class initmigrate
+    [Migration("20250820191054_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -46,13 +46,13 @@ namespace OnTime.EntityFramework.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "9899b328-640a-4fb9-9a76-d05bd5b9ecf3",
+                            Id = "bf8d68fc-f62b-4ed4-8562-11b99be80d9e",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "1df5469d-8892-405b-b727-9e85dfd133fb",
+                            Id = "945b3e8b-25db-4c50-9077-48dfb7b25c33",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });

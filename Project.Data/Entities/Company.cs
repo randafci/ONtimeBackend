@@ -1,11 +1,7 @@
 using Moujam.Casiher.Comman.Base;
 using OnTime.CrossCutting.Comman;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProjectPulse.Data.Entities
 {
@@ -35,5 +31,7 @@ namespace ProjectPulse.Data.Entities
         public ICollection<Company> Children { get; set; } = new List<Company>();
       //  public ICollection<Department> Departments { get; set; } = new List<Department>();
        public Organization? Organization { get; set; }
+       public int? CompanyTypeId { get; set; }
+       public CompanyType? CompanyType { get; set; }
     }
 }

@@ -14,9 +14,9 @@ namespace OnTime.Module.lookup.DTO.Department
         public string NameSE { get; set; } = string.Empty;
         public long Index { get; set; }
         public long? ParentId { get; set; }
-        public int? DepartmentType { get; set; }
         public bool FromIntegration { get; set; }
         public int OrganizationId { get; set; }
         public int? CompanyId { get; set; }
+        public int? DepartmentTypeId { get; set; }
     }
 }

@@ -20,12 +20,16 @@ namespace OnTime.EntityFramework.DataBaseContext
        public DbSet<Organization> Organizations { get; set; }
        public DbSet<Company> Companies { get; set; }
         public DbSet<Department> Departments { get; set; }
+        public DbSet<CompanyType> CompanyTypes { get; set; }
+        public DbSet<DepartmentType> DepartmentTypes { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             SeedRoles(modelBuilder);
+            SeedCompanyTypes(modelBuilder);
+            SeedDepartmentTypes(modelBuilder);
            // SeedDefaultUserAsync();
         }
 
@@ -48,6 +52,56 @@ namespace OnTime.EntityFramework.DataBaseContext
         };
 
             modelBuilder.Entity<IdentityRole>().HasData(roles);
+        }
+
+        private void SeedCompanyTypes(ModelBuilder modelBuilder)
+        {
+            var companyTypes = new List<CompanyType>
+            {
+                new CompanyType
+                {
+                    Id = 1,
+                    Name = "Main Company",
+                    IsDeleted = false,
+                    CreationDate = DateTime.UtcNow,
+                    // CreatedBy = ""
+                },
+                new CompanyType
+                {
+                    Id = 2,
+                    Name = "Sub Company",
+                    IsDeleted = false,
+                    CreationDate = DateTime.UtcNow,
+                    // CreatedBy = ""
+                }
+            };
+
+            modelBuilder.Entity<CompanyType>().HasData(companyTypes);
+        }
+
+        private void SeedDepartmentTypes(ModelBuilder modelBuilder)
+        {
+            var departmentTypes = new List<DepartmentType>
+            {
+                new DepartmentType
+                {
+                    Id = 1,
+                    Name = "Main Department",
+                    IsDeleted = false,
+                    CreationDate = DateTime.UtcNow,
+                    // CreatedBy = ""
+                },
+                new DepartmentType
+                {
+                    Id = 2,
+                    Name = "Sub Department",
+                    IsDeleted = false,
+                    CreationDate = DateTime.UtcNow,
+                    // CreatedBy = ""
+                }
+            };
+
+            modelBuilder.Entity<DepartmentType>().HasData(departmentTypes);
         }
 
         public async Task<bool> TableExistsAsync(string tableName)
