@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OnTime.CrossCutting.Common.Security;
 using OnTime.Lookups.Services.Contracts;
 using OnTime.Module.lookup.DTO;
 using OnTime.Module.lookup.DTO.Company;
@@ -15,12 +16,14 @@ namespace OnTime.Lookups.Domain.API.Controllers
     {
         public OrganizationController(ILookupService<Organization, OrganizationDto> iLookupService) : base(iLookupService) { }
     }
-
+    [AnyAuthorize()]
     public class JobController : LookupController<Job, JobDto>
     {
         public JobController(ILookupService<Job, JobDto> iLookupService) : base(iLookupService) { }
     }
 
+    [AnyAuthorize("Permissions.Companies.Page", "Permissions.Companies.View", "Permissions.Companies.Create"
+        , "Permissions.Companies.Edit", "Permissions.Companies.Delete")]
     public class CompanyController : LookupController<Company, CompanyDto>
     {
         public CompanyController(ILookupService<Company, CompanyDto> iLookupService) : base(iLookupService) { }
