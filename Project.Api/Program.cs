@@ -27,6 +27,9 @@ using OnTime.User.Services.Implementation;
 using OnTime.CrossCutting.Comman.Time;
 using OnTime.User.Services.DTO;
 using OnTime.CrossCutting.Comman.Idenitity;
+using OnTime.Repository.Repository;
+using OnTime.Module.Logic.Contracts;
+using OnTime.Module.Logic.Implementation;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration= builder.Configuration;
@@ -37,6 +40,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped(typeof(ICrossCuttingRepository<>), typeof(CrossCuttingRepository<>));
 
 builder.Services.AddScoped(typeof(ILookupService<,>), typeof(LookupService<,>));
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddAutoMapper(typeof(LookupMappingProfile));
 
 builder.Services.Configure<JwtOptions>(

@@ -1,16 +1,10 @@
 ﻿using Moujam.Casiher.Comman.Base;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OnTime.Data.Entities.Employee
 {
     public class Employee : AuditEntity<int>
     {
-     
-
         public string EmployeeCode { get; set; }
 
         public string? FirstName { get; set; }
@@ -30,10 +24,12 @@ namespace OnTime.Data.Entities.Employee
 
         public string? ImageUrl { get; set; }
 
-       
-
         public string? EmployeeType { get; set; }
 
         public string? EmployeeStatus { get; set; }
+
+        // Navigation properties for 1:1 relationships
+        public EmployeeContact? Contact { get; set; }
+        public EmployeeDocument? Document { get; set; }
     }
 }

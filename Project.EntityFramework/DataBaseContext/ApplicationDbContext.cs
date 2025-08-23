@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using OnTime.Data.Entities;
+using OnTime.Data.Entities.Employee;
 using OnTime.Comman.Idenitity;
 using StackExchange.Redis;
 using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
@@ -20,12 +21,19 @@ namespace OnTime.EntityFramework.DataBaseContext
        public DbSet<Organization> Organizations { get; set; }
        public DbSet<Company> Companies { get; set; }
         public DbSet<Department> Departments { get; set; }
+        public DbSet<CompanyTypeLookup> CompanyTypeLookup { get; set; }
+        public DbSet<DepartmentTypeLookup> DepartmentTypeLookup { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<EmployeeContact> EmployeeContacts { get; set; }
+        public DbSet<EmployeeDocument> EmployeeDocuments { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             SeedRoles(modelBuilder);
+            SeedCompanyTypes(modelBuilder);
+            SeedDepartmentTypes(modelBuilder);
            // SeedDefaultUserAsync();
         }
 
@@ -48,6 +56,57 @@ namespace OnTime.EntityFramework.DataBaseContext
         };
 
             modelBuilder.Entity<IdentityRole>().HasData(roles);
+        }
+
+
+        private void SeedCompanyTypes(ModelBuilder modelBuilder)
+        {
+            var companyTypes = new List<CompanyTypeLookup>
+            {
+                new CompanyTypeLookup
+                {
+                    Id = 1,
+                    Name = "Main Company",
+                    IsDeleted = false,
+                    CreationDate = DateTime.UtcNow,
+                    // CreatedBy = ""
+                },
+                new CompanyTypeLookup
+                {
+                    Id = 2,
+                    Name = "Sub Company",
+                    IsDeleted = false,
+                    CreationDate = DateTime.UtcNow,
+                    // CreatedBy = ""
+                }
+            };
+
+            modelBuilder.Entity<CompanyTypeLookup>().HasData(companyTypes);
+        }
+
+        private void SeedDepartmentTypes(ModelBuilder modelBuilder)
+        {
+            var departmentTypes = new List<DepartmentTypeLookup>
+            {
+                new DepartmentTypeLookup
+                {
+                    Id = 1,
+                    Name = "Main Department",
+                    IsDeleted = false,
+                    CreationDate = DateTime.UtcNow,
+                    // CreatedBy = ""
+                },
+                new DepartmentTypeLookup
+                {
+                    Id = 2,
+                    Name = "Sub Department",
+                    IsDeleted = false,
+                    CreationDate = DateTime.UtcNow,
+                    // CreatedBy = ""
+                }
+            };
+
+            modelBuilder.Entity<DepartmentTypeLookup>().HasData(departmentTypes);
         }
 
         public async Task<bool> TableExistsAsync(string tableName)
