@@ -3,7 +3,10 @@ using OnTime.Module.lookup.DTO;
 using OnTime.Module.lookup.DTO.Company;
 using OnTime.Module.lookup.DTO.Department;
 using OnTime.Module.lookup.DTO.Job;
+using OnTime.Module.lookup.DTO.CompanyType;
+using OnTime.Module.lookup.DTO.DepartmentType;
 using ProjectPulse.Data.Entities;
+using OnTime.Data.Entities.Employee;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +31,12 @@ namespace OnTime.Module.lookup.Mapper
             
             CreateMap<DepartmentDto, Department>();
             CreateMap<Department, DepartmentDto>();
+            
+            CreateMap<CompanyTypeDto, CompanyTypeLookup>();
+            CreateMap<CompanyTypeLookup, CompanyTypeDto>();
+            
+            CreateMap<DepartmentTypeDto, DepartmentTypeLookup>();
+            CreateMap<DepartmentTypeLookup, DepartmentTypeDto>();
         }
     }
 

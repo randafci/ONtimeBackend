@@ -16,5 +16,6 @@ namespace OnTime.Module.lookup.DTO.Company
         public long? ParentId { get; set; }
         public bool FromIntegration { get; set; }
         public int OrganizationId { get; set; }
+        public int? CompanyTypeId { get; set; }
     }
 }

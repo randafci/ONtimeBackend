@@ -25,8 +25,6 @@ namespace ProjectPulse.Data.Entities
 
         public long? ParentId { get; set; }
 
-        public int? DepartmentType { get; set; }
-
         public bool FromIntegration { get; set; }
 
         public int OrganizationId { get; set; }
@@ -40,6 +38,8 @@ namespace ProjectPulse.Data.Entities
         // Navigation properties
         public Department? Parent { get; set; }
         public ICollection<Department> Children { get; set; } = new List<Department>();
+        public int? DepartmentTypeLookupId { get; set; }
+        public DepartmentTypeLookup? DepartmentTypeLookup { get; set; }
     }
 
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnTime.EntityFramework.DataBaseContext;
 
@@ -11,9 +12,11 @@ using OnTime.EntityFramework.DataBaseContext;
 namespace OnTime.EntityFramework.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250821203119_companiesDepartmentsLookupTables")]
+    partial class companiesDepartmentsLookupTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,13 +46,13 @@ namespace OnTime.EntityFramework.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b52d32fe-1b79-49f8-a667-024d80a6a0ab",
+                            Id = "3e1b5697-2913-46e0-96e9-aa8d27d36d62",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "b4b5b588-6c43-443c-bb82-92a88a3276c0",
+                            Id = "170bbd3b-fc58-4f4b-adec-88f7bc9be1b4",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -368,95 +371,7 @@ namespace OnTime.EntityFramework.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Employees");
-                });
-
-            modelBuilder.Entity("OnTime.Data.Entities.Employee.EmployeeContact", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Address")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("City")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("OfficialEmail")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("OfficialMobile")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("OfficialPhone")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("PersonalEmail")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("PersonalMobile")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("PersonalPhone")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("State")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId")
-                        .IsUnique();
-
-                    b.ToTable("EmployeeContacts");
-                });
-
-            modelBuilder.Entity("OnTime.Data.Entities.Employee.EmployeeDocument", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("PassportExpirationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PassportNumber")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime?>("VisaExpirationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("VisaNumber")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId")
-                        .IsUnique();
-
-                    b.ToTable("EmployeeDocuments");
+                    b.ToTable("Employee");
                 });
 
             modelBuilder.Entity("ProjectPulse.Data.Entities.Company", b =>
@@ -558,7 +473,7 @@ namespace OnTime.EntityFramework.Migrations
                         new
                         {
                             Id = 1,
-                            CreationDate = new DateTime(2025, 8, 23, 22, 33, 12, 777, DateTimeKind.Utc).AddTicks(2607),
+                            CreationDate = new DateTime(2025, 8, 21, 20, 31, 19, 305, DateTimeKind.Utc).AddTicks(9348),
                             IsDeleted = false,
                             Name = "Main Company",
                             NameSE = ""
@@ -566,7 +481,7 @@ namespace OnTime.EntityFramework.Migrations
                         new
                         {
                             Id = 2,
-                            CreationDate = new DateTime(2025, 8, 23, 22, 33, 12, 777, DateTimeKind.Utc).AddTicks(2615),
+                            CreationDate = new DateTime(2025, 8, 21, 20, 31, 19, 305, DateTimeKind.Utc).AddTicks(9353),
                             IsDeleted = false,
                             Name = "Sub Company",
                             NameSE = ""
@@ -677,7 +592,7 @@ namespace OnTime.EntityFramework.Migrations
                         new
                         {
                             Id = 1,
-                            CreationDate = new DateTime(2025, 8, 23, 22, 33, 12, 777, DateTimeKind.Utc).AddTicks(2672),
+                            CreationDate = new DateTime(2025, 8, 21, 20, 31, 19, 305, DateTimeKind.Utc).AddTicks(9408),
                             IsDeleted = false,
                             Name = "Main Department",
                             NameSE = ""
@@ -685,7 +600,7 @@ namespace OnTime.EntityFramework.Migrations
                         new
                         {
                             Id = 2,
-                            CreationDate = new DateTime(2025, 8, 23, 22, 33, 12, 777, DateTimeKind.Utc).AddTicks(2676),
+                            CreationDate = new DateTime(2025, 8, 21, 20, 31, 19, 305, DateTimeKind.Utc).AddTicks(9412),
                             IsDeleted = false,
                             Name = "Sub Department",
                             NameSE = ""
@@ -830,28 +745,6 @@ namespace OnTime.EntityFramework.Migrations
                     b.Navigation("Employee");
                 });
 
-            modelBuilder.Entity("OnTime.Data.Entities.Employee.EmployeeContact", b =>
-                {
-                    b.HasOne("OnTime.Data.Entities.Employee.Employee", "Employee")
-                        .WithOne("Contact")
-                        .HasForeignKey("OnTime.Data.Entities.Employee.EmployeeContact", "EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
-                });
-
-            modelBuilder.Entity("OnTime.Data.Entities.Employee.EmployeeDocument", b =>
-                {
-                    b.HasOne("OnTime.Data.Entities.Employee.Employee", "Employee")
-                        .WithOne("Document")
-                        .HasForeignKey("OnTime.Data.Entities.Employee.EmployeeDocument", "EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
-                });
-
             modelBuilder.Entity("ProjectPulse.Data.Entities.Company", b =>
                 {
                     b.HasOne("ProjectPulse.Data.Entities.CompanyTypeLookup", "CompanyTypeLookup")
@@ -913,13 +806,6 @@ namespace OnTime.EntityFramework.Migrations
                         .IsRequired();
 
                     b.Navigation("Organization");
-                });
-
-            modelBuilder.Entity("OnTime.Data.Entities.Employee.Employee", b =>
-                {
-                    b.Navigation("Contact");
-
-                    b.Navigation("Document");
                 });
 
             modelBuilder.Entity("ProjectPulse.Data.Entities.Company", b =>
