@@ -38,6 +38,17 @@ namespace OnTime.ResponseHandler.Models
                
             };
         }
+        public static APIOperationResponse<T> Fail(ResponseType errorCode, string description = "", bool IgnoreError = false)
+        {
+            return new APIOperationResponse<T>
+            {
+
+
+                Message = description,
+                StatusCode = (int)errorCode,
+
+            };
+        }
         public static APIOperationResponse<T> CreateResponse(ResponseType responseType, string? message, List<string>? errors, T? data)
         {
             return new APIOperationResponse<T>
