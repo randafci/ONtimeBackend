@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnTime.EntityFramework.DataBaseContext;
 
@@ -11,9 +12,11 @@ using OnTime.EntityFramework.DataBaseContext;
 namespace OnTime.EntityFramework.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250821220157_employeesTables")]
+    partial class employeesTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,13 +46,13 @@ namespace OnTime.EntityFramework.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b52d32fe-1b79-49f8-a667-024d80a6a0ab",
+                            Id = "74784050-22e2-4721-9980-7f9578d0fd91",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "b4b5b588-6c43-443c-bb82-92a88a3276c0",
+                            Id = "eb8f68f2-60fd-4827-b0a8-11a613bc842e",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -420,8 +423,7 @@ namespace OnTime.EntityFramework.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmployeeId")
-                        .IsUnique();
+                    b.HasIndex("EmployeeId");
 
                     b.ToTable("EmployeeContacts");
                 });
@@ -453,8 +455,7 @@ namespace OnTime.EntityFramework.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmployeeId")
-                        .IsUnique();
+                    b.HasIndex("EmployeeId");
 
                     b.ToTable("EmployeeDocuments");
                 });
@@ -558,7 +559,7 @@ namespace OnTime.EntityFramework.Migrations
                         new
                         {
                             Id = 1,
-                            CreationDate = new DateTime(2025, 8, 23, 22, 33, 12, 777, DateTimeKind.Utc).AddTicks(2607),
+                            CreationDate = new DateTime(2025, 8, 21, 22, 1, 56, 896, DateTimeKind.Utc).AddTicks(741),
                             IsDeleted = false,
                             Name = "Main Company",
                             NameSE = ""
@@ -566,7 +567,7 @@ namespace OnTime.EntityFramework.Migrations
                         new
                         {
                             Id = 2,
-                            CreationDate = new DateTime(2025, 8, 23, 22, 33, 12, 777, DateTimeKind.Utc).AddTicks(2615),
+                            CreationDate = new DateTime(2025, 8, 21, 22, 1, 56, 896, DateTimeKind.Utc).AddTicks(745),
                             IsDeleted = false,
                             Name = "Sub Company",
                             NameSE = ""
@@ -677,7 +678,7 @@ namespace OnTime.EntityFramework.Migrations
                         new
                         {
                             Id = 1,
-                            CreationDate = new DateTime(2025, 8, 23, 22, 33, 12, 777, DateTimeKind.Utc).AddTicks(2672),
+                            CreationDate = new DateTime(2025, 8, 21, 22, 1, 56, 896, DateTimeKind.Utc).AddTicks(839),
                             IsDeleted = false,
                             Name = "Main Department",
                             NameSE = ""
@@ -685,7 +686,7 @@ namespace OnTime.EntityFramework.Migrations
                         new
                         {
                             Id = 2,
-                            CreationDate = new DateTime(2025, 8, 23, 22, 33, 12, 777, DateTimeKind.Utc).AddTicks(2676),
+                            CreationDate = new DateTime(2025, 8, 21, 22, 1, 56, 896, DateTimeKind.Utc).AddTicks(843),
                             IsDeleted = false,
                             Name = "Sub Department",
                             NameSE = ""
@@ -833,8 +834,8 @@ namespace OnTime.EntityFramework.Migrations
             modelBuilder.Entity("OnTime.Data.Entities.Employee.EmployeeContact", b =>
                 {
                     b.HasOne("OnTime.Data.Entities.Employee.Employee", "Employee")
-                        .WithOne("Contact")
-                        .HasForeignKey("OnTime.Data.Entities.Employee.EmployeeContact", "EmployeeId")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -844,8 +845,8 @@ namespace OnTime.EntityFramework.Migrations
             modelBuilder.Entity("OnTime.Data.Entities.Employee.EmployeeDocument", b =>
                 {
                     b.HasOne("OnTime.Data.Entities.Employee.Employee", "Employee")
-                        .WithOne("Document")
-                        .HasForeignKey("OnTime.Data.Entities.Employee.EmployeeDocument", "EmployeeId")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -913,13 +914,6 @@ namespace OnTime.EntityFramework.Migrations
                         .IsRequired();
 
                     b.Navigation("Organization");
-                });
-
-            modelBuilder.Entity("OnTime.Data.Entities.Employee.Employee", b =>
-                {
-                    b.Navigation("Contact");
-
-                    b.Navigation("Document");
                 });
 
             modelBuilder.Entity("ProjectPulse.Data.Entities.Company", b =>

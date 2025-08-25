@@ -35,5 +35,7 @@ namespace ProjectPulse.Data.Entities
         public ICollection<Company> Children { get; set; } = new List<Company>();
       //  public ICollection<Department> Departments { get; set; } = new List<Department>();
        public Organization? Organization { get; set; }
+       public int? CompanyTypeLookupId { get; set; }
+       public CompanyTypeLookup? CompanyTypeLookup { get; set; }
     }
 }

@@ -22,8 +22,9 @@
     <ProjectReference Include="..\Project.Logic.API\OnTime.lookup.API.csproj" />
     <ProjectReference Include="..\Project.Module.Logic\OnTime.Module.lookup.csproj" />
     <ProjectReference Include="..\Project.Module.User\OnTime.User.API.csproj" />
- 
     <ProjectReference Include="..\Project.User.Services\OnTime.User.Services.csproj" />
+    <ProjectReference Include="..\Ontime.Module.Employee.API\Ontime.Module.Employee.API.csproj" />
+    <ProjectReference Include="..\Ontime.Module.Employee.Service\Ontime.Module.Employee.Service.csproj" />
   </ItemGroup>
 
 </Project>

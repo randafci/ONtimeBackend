@@ -37,7 +37,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped(typeof(ICrossCuttingRepository<>), typeof(CrossCuttingRepository<>));
 
 builder.Services.AddScoped(typeof(ILookupService<,>), typeof(LookupService<,>));
-builder.Services.AddAutoMapper(typeof(LookupMappingProfile));
 
 builder.Services.Configure<JwtOptions>(
 builder.Configuration.GetSection("JWT"));
@@ -119,9 +118,12 @@ baseUrl = baseUrl.Remove(baseUrl.LastIndexOf("/"));
 builder.Services.Configure<FileSettings>(builder.Configuration.GetSection("FileSettings"));
 //builder.Services.AddRefitClient<IServieMangamentApI>().ConfigureHttpClient(c => c.BaseAddress = new Uri(baseUrl));
 #region Dependency Injection
-builder.Services.AddInfrastructureServices().
+builder.Services.AddInfrastructureServices();
+OnTime.User.Services.ModuleServicesDependences.AddReposetoriesServices(builder.Services);
 
-    AddReposetoriesServices();
+// Register Employee services directly
+builder.Services.AddScoped<OnTime.Employee.Services.Interfaces.IEmployeeService, OnTime.Employee.Services.Implementation.EmployeeService>();
+builder.Services.AddAutoMapper(typeof(OnTime.Employee.Services.Mapper.MappingProfile));
 //builder.Services. AddModuleLogicServices();
 builder.Services.AddCors(options =>
 {
